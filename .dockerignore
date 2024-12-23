@@ -1,0 +1,8 @@
+target/
+.git/
+.gitignore
+pdfs/
+target/
+Cargo.lock
+.dockerignore
+Dockerfile

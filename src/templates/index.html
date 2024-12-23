@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MS Viewer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .search_field {
+            margin-top: 1em;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .search_field input, .search_field button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .search_field input {
+            width: 300px;
+        }
+        .search_field button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        #pdf-viewer {
+            margin: 10px;
+            width: 80%;
+            height: 100%;
+        }
+        pdfjs-viewer-element {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf_viewer.min.css" integrity="sha512-WYauhE1baANelW9HsMgexJLFGthh1tBGYGam3z66+qELKsxh2VYt6ClHcZLu32EEbDQ4tpKXGHyUAujojYRbTg==" crossorigin="anonymous" referrerpolicy="no-referrer" />                
+    <script type="module" src="https://cdn.skypack.dev/pdfjs-viewer-element"></script>
+</head>
+<body>
+    <div class="search_field">
+        <input type="text" id="search" placeholder="Enter Search Text">
+        <button id="open-markscheme">Open Mark Scheme</button>
+        <button id="open-question">Open Question Paper</button>
+    </div>
+
+    <div id="pdf-viewer">
+        <!-- 
+            <pdfjs-viewer-element src="/pdf/{{URL}}" viewer-path="/static/pdfjs"></pdfjs-viewer-element>      
+        -->
+    </div>
+    
+    <script type="module">
+        let isCtrlPressed = false;
+
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Control") isCtrlPressed = true;
+
+        });
+        document.addEventListener("keyup", function(event) {
+            if (event.key === "Control") isCtrlPressed = false;
+        });
+        document.getElementById("open-markscheme").addEventListener("click", function() {
+            const search = document.getElementById("search").value;
+            const viewer = document.getElementById("pdf-viewer");
+            // <pdfjs-viewer-element src="/pdf/{{URL}}" viewer-path="/static/pdfjs"></pdfjs-viewer-element>      
+            viewer.innerHTML = `<pdfjs-viewer-element src="/pdf/${search}-ms" viewer-path="/viewer"></pdfjs-viewer-element>`;
+        });
+        document.getElementById("open-question").addEventListener("click", function() {
+            const search = document.getElementById("search").value;
+            const viewer = document.getElementById("pdf-viewer");
+            viewer.innerHTML = `<pdfjs-viewer-element src="/pdf/${search}-qp" viewer-path="/viewer"></pdfjs-viewer-element>`;
+        });
+    </script>
+</body>
+</html>
