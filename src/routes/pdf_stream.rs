@@ -12,16 +12,16 @@ use crate::AppState;
 pub async fn stream_paper(state: &State<AppState>,  paper: PathBuf) -> Result<NamedFile, NotFound<&'static str>> {
     let paper = match paper.to_str() {
         Some(paper) => paper.to_lowercase(),
-        None => return Err(NotFound("Paper not found")),
+        None => return Err(NotFound("Failed to join the Paper PathBuf")),
     };
     let paper = crate::utils::santizier::sanitize_input(&paper);
     let paper = state.files.get_case_insensitive(&paper);
     let paper = match paper {
         Some(paper) => paper,
-        None => return Err(NotFound("Paper not found")),
+        None => return Err(NotFound("Paper not found in the database")),
     };
     match NamedFile::open(paper).await {
         Ok(file) => Ok(file),
-        Err(_) => Err(NotFound("Paper not found")),
+        Err(_) => Err(NotFound("Paper not found in file system")),
     }
 }
