@@ -20,6 +20,8 @@ pub fn get_pdf_viewer(file: PathBuf) -> StaticResponse {
         },
     };
 
+    let file = file.replace(std::path::MAIN_SEPARATOR, "/");
+
     match file.as_str() {
         "web/viewer.html" => StaticResponse {
             content: crate::templates::PDF_VIEWER_HTML,
