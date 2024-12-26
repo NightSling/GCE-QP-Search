@@ -44,4 +44,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: binary-${{ matrix.os }}-${{ matrix.version }}
-        path: target/${{ matrix.os == 'ubuntu-latest' && 'x86_64-unknown-linux-gnu' || 'x86_64-pc-windows-msvc' }}/release/gce-hoster${{ matrix.os == 'ubuntu-latest' && '' || '.exe' }}
+        path: ${{ matrix.os == 'ubuntu-latest' && 'target/x86_64-unknown-linux-gnu/release/gce-hoster' || 'target/x86_64-pc-windows-msvc/release/gce-hoster.exe' }}
