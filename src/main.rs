@@ -1,10 +1,31 @@
-use std::collections::HashMap;
+#![feature(allocator_api)]
 
-use rocket::fs::FileServer;
+// When the `system-alloc` feature is used, use the System Allocator
+#[cfg(feature = "system-alloc")]
+mod allocator {
+    use std::heap::System;
+
+    #[global_allocator]
+    pub static mut THE_ALLOC: System = System;
+}
+
+// When the `system-alloc` feature is not used, do nothing,
+// retaining the default functionality (using jemalloc)
+#[cfg(not(feature = "system-alloc"))]
+mod allocator {
+    #[allow(dead_code)]
+    pub static THE_ALLOC: () = ();
+}
+
+#[allow(unused_imports)]
+use allocator::THE_ALLOC;
+
+use std::collections::HashMap;
 use utils::{process_file, walker::walk_dir};
 
 #[macro_use]
 extern crate rocket;
+
 
 mod routes;
 mod templates;

@@ -6,10 +6,16 @@ edition = "2021"
 [dependencies]
 rocket = "0.5.1"
 regex = "1.11.1"
-walkdir = "2"
+walkdir = "2.5.0"
+include_dir = "0.7.4"
+
+[features]
+system-alloc = []
 
 [profile.release]
 strip = true
 lto = true
 codegen-units = 1
 opt-level = "z"
+panic = "abort"
+incremental = false
